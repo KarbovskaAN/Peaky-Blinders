@@ -10,12 +10,12 @@ public class Field : MonoBehaviour
    public GameObject RedButton;
    public GameObject GreyButton;
 
-   private int Width = 5;
-   private int Height = 5;
+   private int Width ;
+   private int Height ;
 
-   private int CountGreenButton = 9;
-   private int CountYellowButton = 8;
-   private int CountRedButton = 1;
+   private int CountGreenButton ;
+   private int CountYellowButton ;
+   private int CountRedButton ;
    private int CountGreyButton;
    
    public  List <Button> Buttons ;
@@ -25,8 +25,14 @@ public class Field : MonoBehaviour
    private int _currentButton;
    private int _countForCurrentButton;
 
-   private void Start()
+   public void GenerateField(int width, int height, int greenButton, int yellowButton, int redButton)
    {
+      Width = width;
+      Height = height;
+      CountGreenButton = greenButton;
+      CountYellowButton = yellowButton;
+      CountRedButton = redButton;
+      
       CountingGreyButtons();
       CreatAllButtons();
       MixAllButtons(); 
@@ -109,5 +115,14 @@ public class Field : MonoBehaviour
             index += 1;
          }
       }
+   }
+
+   public void DeletedAllButtons()
+   {
+      for (int i = 0; i < Buttons.Count; i++)
+      {
+         Destroy(Buttons[i].gameObject);
+      }
+      Buttons.Clear();
    }
 }

@@ -21,7 +21,6 @@ public class Button : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("ButtonWorks");
         Highlight(true);
     }
 }
