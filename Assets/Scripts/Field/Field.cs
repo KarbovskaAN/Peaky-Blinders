@@ -86,6 +86,7 @@ public class Field : MonoBehaviour
       }
 
       GameObject clone = Instantiate(Button);
+      
       Button buttonScript = clone.GetComponent<Button>();
       Buttons.Add(buttonScript);
    }

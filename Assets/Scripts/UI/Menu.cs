@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
@@ -12,13 +8,18 @@ public class Menu : MonoBehaviour
     public TMP_InputField CountGreen;
     public TMP_InputField CountYellow;
     public TMP_InputField CountRed;
+    
+    [SerializeField] private TextMeshProUGUI m_text;
+    
+    public TMP_Text TotalNumber; 
+    private int _totalNumber; 
 
-    private int Width ;
-    private int Height ;
+    private int _width ;
+    private int _height ;
 
-    private int CountGreenButton ;
-    private int CountYellowButton ;
-    private int CountRedButton ;
+    private int _countGreenButton;
+    private int _countYellowButton ;
+    private int _countRedButton ;
 
     public GameObject UISettingsPanel;
     public GameObject GamePanel;
@@ -29,19 +30,23 @@ public class Menu : MonoBehaviour
     private void Start()
     {
         _convert = new Convert();
+        
+        WidthText.onValueChanged.AddListener(delegate {ValueChangeCheck(); });
+        HeightText.onValueChanged.AddListener(delegate {ValueChangeCheck(); });
+        
     }
 
     public void FieldGenerateButton()
     { 
        _field.DeletedAllButtons();
         
-       Width = _convert.ConvertText(WidthText.text);
-       Height =  _convert.ConvertText(HeightText.text);
-       CountGreenButton =  _convert.ConvertText(CountGreen.text);
-       CountYellowButton =  _convert.ConvertText(CountYellow.text);
-       CountRedButton =  _convert.ConvertText(CountRed.text);
+       _width = _convert.ConvertText(WidthText.text);
+       _height =  _convert.ConvertText(HeightText.text);
+       _countGreenButton =  _convert.ConvertText(CountGreen.text);
+       _countYellowButton =  _convert.ConvertText(CountYellow.text);
+       _countRedButton =  _convert.ConvertText(CountRed.text);
         
-       _field.GenerateField(Width, Height, CountGreenButton, CountYellowButton, CountRedButton);
+       _field.GenerateField(_width, _height, _countGreenButton, _countYellowButton, _countRedButton);
        UISettingsPanel.SetActive(false);
        GamePanel.SetActive(true);
     }
@@ -56,6 +61,30 @@ public class Menu : MonoBehaviour
     {
         UISettingsPanel.SetActive(false);
         GamePanel.SetActive(true);
+    }
+
+    public void ValueChangeCheck()
+    {
+        if (WidthText.text != "" && HeightText.text != "")
+        {
+            _width = _convert.ConvertText(WidthText.text);
+            _height = _convert.ConvertText(HeightText.text);
+            _totalNumber = _width * _height;
+            TotalNumber.text = _totalNumber.ToString();
+            
+            _countGreenButton = _totalNumber / 3;
+            
+            CountGreen.text= _countGreenButton.ToString();
+
+            _countYellowButton = (_totalNumber / 3) - 1;
+            if (_countYellowButton <=0)
+            {
+                _countYellowButton = 0;
+            }
+            CountYellow.text = _countYellowButton.ToString();
+        }
+
+        
     }
     
 }
